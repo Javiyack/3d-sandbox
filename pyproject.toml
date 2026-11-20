@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mujoco-walking-sandbox"
+version = "0.1.0"
+description = "Sandbox 3D para entrenar un robot bipedo con Gymnasium, MuJoCo y Stable-Baselines3"
+requires-python = ">=3.11"
+dependencies = [
+    "gymnasium[mujoco]>=1.2,<2",
+    "mujoco>=3.3,<4",
+    "stable-baselines3>=2.7,<3",
+    "numpy>=1.26,<3",
+    "tensorboard>=2.20,<3",
+    "tqdm>=4.66,<5",
+    "rich>=13,<15",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3,<9",
+    "ruff>=0.9,<1",
+]
+
+[project.scripts]
+robot-walk-train = "robot_walk.train:main"
+robot-walk-evaluate = "robot_walk.evaluate:main"
+robot-walk-demo = "robot_walk.demo:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["robot_walk*"]
+
+[tool.setuptools.package-data]
+robot_walk = ["assets/*.xml"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+addopts = "-q"
